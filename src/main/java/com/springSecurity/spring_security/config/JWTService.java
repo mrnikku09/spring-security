@@ -24,7 +24,7 @@ public class JWTService {
 
     public JWTService(Environment env) {
         this.env = env;
-        String STATIC_SECRET_KEY = env.getProperty("STATIC_SECRET_KEYY");
+        String STATIC_SECRET_KEY = env.getProperty("STATIC_SECRET_KEY");
         // Generate a secure key during construction
         byte[] keyBytes = STATIC_SECRET_KEY.getBytes();
         this.secretKey = Keys.hmacShaKeyFor(keyBytes);
