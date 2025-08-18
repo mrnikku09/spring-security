@@ -21,11 +21,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JWTService jwtService;
     private final UserDetailsService userDetailsService;
-    @Autowired
-    private TokenBlacklistService tokenBlacklistService;
+//    @Autowired
+//    private final TokenBlacklistService tokenBlacklistService;
 
     public JwtAuthenticationFilter(JWTService jwtService, UserDetailsService userDetailsService) {
         this.jwtService = jwtService;
+//        this.tokenBlacklistService=tokenBlacklistService;
         this.userDetailsService = userDetailsService;
     }
 
@@ -45,7 +46,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         if (authHeader.startsWith("Bearer ")) {
 
             // Check if token is blacklisted
-            if (tokenBlacklistService.isTokenBlacklisted(jwt)) {
+            if (jwtService.isTokenBlacklisted(jwt)) {
                 response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Token has been invalidated");
                 return;
             }

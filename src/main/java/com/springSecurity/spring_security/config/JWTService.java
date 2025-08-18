@@ -9,9 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Function;
 
 @Service
@@ -60,10 +58,7 @@ public class JWTService {
                 .parseClaimsJws(token)
                 .getBody();
     }
-//    private Key getSignInKey() {
-//        byte[] keyBytes = Decoders.BASE64.decode(STATIC_SECRET_KEY);
-//        return Keys.hmacShaKeyFor(keyBytes);
-//    }
+
 
     public boolean isTokenValid(String token, UserDetails userDetails) {
         final String userName = extractUserName(token);
@@ -78,5 +73,13 @@ public class JWTService {
         return extractClaims(token, Claims::getExpiration);
     }
 
+    private final Set<String> blacklistedTokens = Collections.synchronizedSet(new HashSet<>());
 
+    public void blacklistToken(String token) {
+        blacklistedTokens.add(token);
+    }
+
+    public boolean isTokenBlacklisted(String token) {
+        return blacklistedTokens.contains(token);
+    }
 }

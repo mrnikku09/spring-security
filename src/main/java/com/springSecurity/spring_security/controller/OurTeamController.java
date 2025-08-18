@@ -13,13 +13,13 @@ import java.util.List;
 @RequestMapping("/api")
 public class OurTeamController {
 
-    @Autowired
     private OurTeamService ourTeamService;
-
-
-    @Autowired
     private JWTService jwtService;
 
+    public OurTeamController(OurTeamService ourTeamService, JWTService jwtService) {
+        this.ourTeamService = ourTeamService;
+        this.jwtService = jwtService;
+    }
 
     @GetMapping("/get-our-team")
     public List<OurteamEntity> getourteam(@RequestHeader("Authorization") String headers) {
